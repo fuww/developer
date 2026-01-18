@@ -134,3 +134,56 @@ The primary use case for this site is documenting the FashionUnited GraphQL API:
 - Endpoint: `https://fashionunited.com/graphql/`
 - Playground: `https://fashionunited.com/graphiql/`
 - Marketplace queries support pagination, locales, and brand filtering
+
+## Issue Tracking with Beads
+
+This project uses [Beads](https://github.com/steveyegge/beads) by Steve Yegge for issue tracking. Beads is a distributed, Git-backed issue tracker designed specifically for AI coding agents.
+
+### Installation
+
+```bash
+# macOS/Linux
+curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
+
+# or via Homebrew
+brew install steveyegge/beads/bd
+
+# or via npm
+npm install -g @beads/bd
+```
+
+### Usage
+
+```bash
+bd init                              # Initialize beads in project (run once)
+bd create "Issue title" -p 1         # Create new issue (priority 1-5)
+bd list                              # Show all issues
+bd ready                             # Display unblocked tasks ready for work
+bd show <id>                         # View issue details
+bd update <id> --status in_progress  # Update status
+bd close <id> --reason "Completed"   # Close finished work
+bd sync                              # Force sync to Git
+```
+
+### Key Principles
+
+- **Always use `bd` for task tracking** - File issues for incomplete work, track progress with status updates
+- **Include issue IDs in commits** - Use format like `"Fix bug (bd-abc)"` in commit messages
+- **Never use `bd edit`** - Use `bd update` with flags instead (it requires an interactive editor)
+- **Run `bd sync` before ending sessions** - Ensures all changes are pushed to Git
+- **Work is NOT complete until `git push` succeeds** - Always push before finishing
+
+### Beads Configuration
+
+The `.beads/` directory contains:
+- `issues.jsonl` - Git-tracked issues in JSONL format
+- `beads.db` - Local SQLite cache (gitignored)
+
+### Claude Code Integration
+
+When using Claude Code with this project, the agent should:
+1. Check `bd ready` at session start to see pending tasks
+2. Create issues for any discovered work with `bd create`
+3. Update issue status as work progresses
+4. Close completed issues with `bd close`
+5. Run `bd sync` and `git push` before ending sessions
