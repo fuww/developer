@@ -1,12 +1,11 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
 {
-	"name": "Node.js & TypeScript",
+	"name": "Bun & TypeScript",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+	"image": "oven/bun:1",
 	"features": {
-		"ghcr.io/devcontainers/features/node:1": {},
-		"ghcr.io/joshuanianji/devcontainer-features/mount-pnpm-store:1": {}
+		"ghcr.io/devcontainers/features/node:1": {}
 	},
 
 	"portsAttributes": {
@@ -18,12 +17,12 @@
 
 	"forwardPorts": [4321, 9323],
 
-	"postCreateCommand": "pnpm install && pnpm run build",
+	"postCreateCommand": "bun install && bun build",
 
 	"waitFor": "postCreateCommand",
 
 	"postAttachCommand": {
-		"Server": "pnpm start --host"
+		"Server": "bun start --host"
 	},
 
 	"customizations": {

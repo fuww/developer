@@ -16,7 +16,7 @@ bun start         # Run production server
 
 ### Building
 ```bash
-bun run build     # Run type checking and build for production
+bun build         # Run type checking and build for production
 astro check       # Type check without building
 ```
 
@@ -27,7 +27,7 @@ bun test:e2e      # Run Playwright E2E tests
 
 ### Preview
 ```bash
-bun run preview   # Preview production build locally
+bun preview       # Preview production build locally
 ```
 
 ### Docker
