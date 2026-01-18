@@ -1,5 +1,5 @@
 {
-  description = "Example JavaScript development environment for Zero to Nix";
+  description = "FashionUnited Developer Portal development environment";
 
   # Flake inputs
   inputs = {
@@ -28,8 +28,7 @@
         default = pkgs.mkShell {
           # The Nix packages provided in the environment
           packages = with pkgs; [
-              nodejs_22
-              corepack_22
+              bun
               nixpkgs-fmt
           ];
         };

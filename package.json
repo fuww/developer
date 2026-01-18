@@ -2,11 +2,9 @@
   "name": "developer-fashionunited-com",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@10.18.1",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "dev": "astro dev",
-    "start": "node ./dist/server/entry.mjs",
+    "start": "bun ./dist/server/entry.mjs",
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
