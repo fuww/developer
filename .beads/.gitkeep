@@ -1,0 +1,6 @@
+# This directory is used by Beads issue tracker
+# See: https://github.com/steveyegge/beads
+#
+# Run `bd init` to initialize the beads database
+# Issues will be stored in issues.jsonl (Git-tracked)
+# The SQLite cache (beads.db) is gitignored

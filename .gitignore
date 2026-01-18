@@ -42,3 +42,7 @@ pnpm-debug.log*
 
 .playwright-mcp/
 .claude/settings.local.json
+
+# Beads issue tracker cache (JSONL files should be tracked)
+.beads/*.db
+.beads/*.db-*
