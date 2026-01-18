@@ -1,32 +1,23 @@
-FROM node:22-alpine AS base
+FROM oven/bun:1-alpine AS base
 WORKDIR /app
 
 # Install build dependencies and runtime libraries for Sharp
 RUN apk add --no-cache python3 py3-setuptools make g++ vips-dev vips
 
-# Install pnpm globally
-RUN corepack enable && corepack prepare pnpm@10.18.1 --activate
-
 FROM base AS deps
-COPY package.json pnpm-lock.yaml .npmrc ./
-RUN pnpm install --frozen-lockfile && \
-    cd node_modules/sharp && npm install --ignore-scripts=false --foreground-scripts && \
-    cd /app && \
-    rm -rf /root/.npm /root/.cache /tmp/*
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
 FROM base AS prod-deps
-COPY package.json pnpm-lock.yaml .npmrc ./
-RUN pnpm install --prod --frozen-lockfile && \
-    cd node_modules/sharp && npm install --ignore-scripts=false --foreground-scripts && \
-    cd /app && \
-    rm -rf /root/.npm /root/.cache /tmp/* && \
-    pnpm store prune
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile --production && \
+    rm -rf /root/.bun/install/cache
 
 FROM deps AS build
 COPY . .
-RUN pnpm run build
+RUN bun run build
 
-FROM node:22-alpine AS runtime
+FROM oven/bun:1-alpine AS runtime
 WORKDIR /app
 
 # Install only runtime dependencies for Sharp (vips, not vips-dev)
@@ -42,4 +33,4 @@ COPY --from=build /app/package.json ./
 ENV HOST=0.0.0.0
 ENV PORT=8080
 EXPOSE 8080
-CMD node ./dist/server/entry.mjs
+CMD ["bun", "./dist/server/entry.mjs"]

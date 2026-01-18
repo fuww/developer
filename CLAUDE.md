@@ -10,24 +10,24 @@ This is the FashionUnited Developer Portal - a documentation site built with [As
 
 ### Development
 ```bash
-pnpm dev          # Start dev server (default: http://localhost:4321)
-pnpm start        # Alias for pnpm dev
+bun dev           # Start dev server (default: http://localhost:4321)
+bun start         # Run production server
 ```
 
 ### Building
 ```bash
-pnpm build        # Run type checking and build for production
+bun run build     # Run type checking and build for production
 astro check       # Type check without building
 ```
 
 ### Testing
 ```bash
-pnpm test:e2e     # Run Playwright E2E tests
+bun test:e2e      # Run Playwright E2E tests
 ```
 
 ### Preview
 ```bash
-pnpm preview      # Preview production build locally
+bun run preview   # Preview production build locally
 ```
 
 ### Docker
@@ -46,7 +46,7 @@ docker build -t europe-west1-docker.pkg.dev/developers-fashionunited-com/develop
 - **Animations**: Framer Motion for interactive elements, astro-vtbot for page transitions
 - **Testing**: Playwright for E2E testing
 - **Analytics**: Plausible (loaded via Partytown)
-- **Deployment**: Google Cloud Run (see cloudbuild.yaml)
+- **Deployment**: Google Cloud Run (see Dockerfile)
 
 ### Project Structure
 
@@ -88,8 +88,7 @@ src/
 
 - **Output Mode**: Static site generation with optional Node.js middleware adapter
 - **Docker**: Multi-stage build with Sharp support for image optimization
-- **Cloud Build**: Automated builds using Google Cloud Build with buildpacks
-- **Runtime**: Node.js LTS in Alpine Linux container
+- **Runtime**: Bun in Alpine Linux container
 - **Port**: 8080 (configured in Dockerfile)
 
 ## Key Configuration Files
@@ -98,13 +97,12 @@ src/
 - `tailwind.config.mjs`: Tailwind with Starlight plugin, custom blue theme, shadcn/ui setup
 - `tsconfig.json`: TypeScript config with `@/*` path alias for `./src/*`
 - `playwright.config.ts`: E2E tests run against preview server on port 4321
-- `cloudbuild.yaml`: Google Cloud Build configuration for Cloud Run deployment
-- `Dockerfile`: Multi-stage Node.js build with vips-dev for Sharp image processing
+- `Dockerfile`: Multi-stage Bun build with vips-dev for Sharp image processing
 
 ## Package Manager
 
-- **pnpm** is required (enforced via preinstall script)
-- Version: 10.13.1 (managed via corepack)
+- **Bun** is used as the package manager and JavaScript runtime
+- Install dependencies with `bun install`
 
 ## Development Environment
 
@@ -112,7 +110,7 @@ This project supports multiple development environments:
 - **Nix**: `nix develop` for reproducible environment (see flake.nix)
 - **devenv**: Alternative Nix-based development environment
 - **Docker**: For containerized builds
-- **Standard Node.js**: With pnpm 10.13.1
+- **Standard Bun**: Install Bun from https://bun.sh
 
 ## Important Patterns
 
