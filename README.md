@@ -85,11 +85,11 @@ codex login --device-auth
 
 ### Configuration
 
-Create `.ralph/config.toml` to override defaults:
+Create `.ralph/config.toml` to override defaults (default model is `opus`):
 
 ```toml
 max_iterations = 10
-model = "sonnet"
+model = "opus"
 delay = 5
 push_enabled = false
 review_enabled = true
