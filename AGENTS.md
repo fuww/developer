@@ -60,3 +60,25 @@ Before ending a session with code changes:
 1. Run `bun run build` to verify types
 2. Run `bun test:e2e` if UI was modified
 3. Commit with descriptive message including issue ID
+## Issue Tracking
+
+This project uses **bd (beads)** for issue tracking.
+Run `bd prime` for workflow context, or install hooks (`bd hooks install`) for auto-injection.
+
+**Quick reference:**
+- `bd ready` - Find unblocked work
+- `bd create "Title" --type task --priority 2` - Create issue
+- `bd close <id>` - Complete work
+- `bd sync` - Sync with jj (run at session end)
+
+For full workflow details: `bd prime`
+
+Always commit changes to .beads folder with other changes.
+
+
+
+## Related Tools
+
+- **Beads**: [github.com/steveyegge/beads](https://github.com/steveyegge/beads) - AI-native issue tracking
+
+
