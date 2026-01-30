@@ -47,9 +47,6 @@ pnpm-debug.log*
 .beads/*.db
 .beads/*.db-*
 
-# Beads loop state (legacy, migrated to .ralph/)
-.beads/loop/
-
 # Ralph Wiggum loop runtime state (sessions, logs, metrics)
 .ralph/sessions/
 .ralph/latest

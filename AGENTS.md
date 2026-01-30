@@ -77,18 +77,8 @@ Always commit changes to .beads folder with other changes.
 
 
 
-## Multi-Agent Orchestration
-
-For coordinating multiple AI agents working in parallel, see **Gastown**:
-
-- **Repository**: [github.com/steveyegge/gastown](https://github.com/steveyegge/gastown)
-- **Purpose**: Workspace manager for multi-agent orchestration with Claude Code
-- **Features**: Git-backed work state persistence, hierarchical agent coordination (Mayor/Rigs/Polecats), scales to 20-30 simultaneous agents
-
-
 ## Related Tools
 
 - **Beads**: [github.com/steveyegge/beads](https://github.com/steveyegge/beads) - AI-native issue tracking
-- **Gastown**: [github.com/steveyegge/gastown](https://github.com/steveyegge/gastown) - Multi-agent workspace manager
 
 
