@@ -44,6 +44,7 @@ docker build -t europe-west1-docker.pkg.dev/developers-fashionunited-com/develop
 ## License
 
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffuww%2Fdeveloper.fashionunited.com.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffuww%2Fdeveloper.fashionunited.com?ref=badge_large)
+
 ## Ralph Wiggum Loop
 
 ```bash

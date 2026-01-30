@@ -3,12 +3,11 @@
 # beads-loop v3 - Production-grade loop runner for Claude Code
 #
 # Features:
-#   - Real-time TUI dashboard
 #   - Session persistence & resume
-#   - Live token streaming & cost tracking
-#   - Webhooks & integrations
+#   - Token & cost tracking
+#   - Webhooks & notifications
 #   - Interactive approval mode
-#   - Rich jj diff display
+#   - Review phase (codex exec)
 #   - Automatic rate limit handling
 #   - Report generation
 #
@@ -75,11 +74,9 @@ setup_terminal() {
     if [[ -t 1 ]]; then
         HAS_TTY=true
         TERM_COLS=$(tput cols 2>/dev/null || echo 80)
-        TERM_ROWS=$(tput lines 2>/dev/null || echo 24)
     else
         HAS_TTY=false
         TERM_COLS=80
-        TERM_ROWS=24
     fi
 
     # Colors (with fallback for non-color terminals)
@@ -87,22 +84,19 @@ setup_terminal() {
         C_RESET=$'\033[0m'
         C_BOLD=$'\033[1m'
         C_DIM=$'\033[2m'
-        C_ITALIC=$'\033[3m'
-        C_UNDER=$'\033[4m'
         C_RED=$'\033[38;5;203m'
         C_GREEN=$'\033[38;5;114m'
         C_YELLOW=$'\033[38;5;221m'
         C_BLUE=$'\033[38;5;69m'
         C_MAGENTA=$'\033[38;5;176m'
         C_CYAN=$'\033[38;5;80m'
-        C_ORANGE=$'\033[38;5;215m'
         C_GRAY=$'\033[38;5;245m'
         C_WHITE=$'\033[38;5;255m'
         C_BG_DARK=$'\033[48;5;236m'
     else
-        C_RESET="" C_BOLD="" C_DIM="" C_ITALIC="" C_UNDER=""
+        C_RESET="" C_BOLD="" C_DIM=""
         C_RED="" C_GREEN="" C_YELLOW="" C_BLUE="" C_MAGENTA=""
-        C_CYAN="" C_ORANGE="" C_GRAY="" C_WHITE="" C_BG_DARK=""
+        C_CYAN="" C_GRAY="" C_WHITE="" C_BG_DARK=""
     fi
 }
 
@@ -114,15 +108,11 @@ setup_symbols() {
         SYM_ARROW="▸"
         SYM_BULLET="●"
         SYM_CIRCLE="○"
-        SYM_SPARK="✦"
         SYM_WARN="⚠"
-        SYM_INFO="ℹ"
         SYM_PLAY="▶"
         SYM_PAUSE="⏸"
-        SYM_STOP="⏹"
         SYM_CLOCK="◷"
         SYM_GEAR="⚙"
-        SYM_GRAPH="▁▂▃▄▅▆▇█"
         SYM_SPIN="⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
     else
         SYM_CHECK="+"
@@ -130,15 +120,11 @@ setup_symbols() {
         SYM_ARROW=">"
         SYM_BULLET="*"
         SYM_CIRCLE="o"
-        SYM_SPARK="*"
         SYM_WARN="!"
-        SYM_INFO="i"
         SYM_PLAY=">"
         SYM_PAUSE="||"
-        SYM_STOP="[]"
         SYM_CLOCK="@"
         SYM_GEAR="#"
-        SYM_GRAPH="12345678"
         SYM_SPIN="-\\|/"
     fi
 }
@@ -205,53 +191,9 @@ log_metric() {
 # TUI Components
 # ═══════════════════════════════════════════════════════════════════════════════
 
-cursor_save() { [[ "$HAS_TTY" == true ]] && tput sc || true; }
-cursor_restore() { [[ "$HAS_TTY" == true ]] && tput rc || true; }
 cursor_hide() { [[ "$HAS_TTY" == true ]] && tput civis 2>/dev/null || true; }
 cursor_show() { [[ "$HAS_TTY" == true ]] && tput cnorm 2>/dev/null || true; }
 clear_line() { [[ "$HAS_TTY" == true ]] && printf '\r%*s\r' "$TERM_COLS" '' || true; }
-move_to() { [[ "$HAS_TTY" == true ]] && tput cup "$1" "$2" || true; }
-
-# Progress bar
-progress_bar() {
-    local current=$1
-    local total=$2
-    local width=${3:-40}
-    local label="${4:-}"
-
-    if [[ $total -eq 0 ]]; then
-        printf "${C_DIM}[%*s]${C_RESET}" "$width" ""
-        return
-    fi
-
-    local pct=$((current * 100 / total))
-    local filled=$((current * width / total))
-    local empty=$((width - filled))
-
-    printf "${C_CYAN}["
-    [[ $filled -gt 0 ]] && printf '%*s' "$filled" '' | tr ' ' '█'
-    [[ $empty -gt 0 ]] && printf "${C_DIM}%*s${C_CYAN}" "$empty" '' | tr ' ' '░'
-    printf "]${C_RESET} %3d%%" "$pct"
-    [[ -n "$label" ]] && printf " ${C_DIM}%s${C_RESET}" "$label"
-}
-
-# Sparkline from array of values
-sparkline() {
-    local -a values=("$@")
-    local max=1
-
-    for v in "${values[@]}"; do
-        [[ $v -gt $max ]] && max=$v
-    done
-
-    local chars="${SYM_GRAPH}"
-    local result=""
-    for v in "${values[@]}"; do
-        local idx=$((v * 7 / max))
-        result+="${chars:idx:1}"
-    done
-    echo "$result"
-}
 
 # Spinner with message
 declare SPINNER_PID=""
@@ -325,18 +267,6 @@ draw_status_bar() {
     echo ""
 }
 
-draw_box() {
-    local title="$1"
-    local content="$2"
-    local width=${3:-$((TERM_COLS - 4))}
-
-    echo -e "${C_DIM}┌─${C_RESET}${C_BOLD} $title ${C_RESET}${C_DIM}$(printf '─%.0s' $(seq 1 $((width - ${#title} - 4))))┐${C_RESET}"
-    echo -e "$content" | while IFS= read -r line; do
-        printf "${C_DIM}│${C_RESET} %-$((width-2))s ${C_DIM}│${C_RESET}\n" "$line"
-    done
-    echo -e "${C_DIM}└$(printf '─%.0s' $(seq 1 $((width))))┘${C_RESET}"
-}
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # Utilities
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -360,17 +290,6 @@ format_number() {
         printf '%.1fK' "$(bc <<< "scale=1; $num/1000")"
     else
         printf '%.2fM' "$(bc <<< "scale=2; $num/1000000")"
-    fi
-}
-
-format_bytes() {
-    local bytes=$1
-    if [[ $bytes -lt 1024 ]]; then
-        echo "${bytes}B"
-    elif [[ $bytes -lt 1048576 ]]; then
-        printf '%.1fKB' "$(bc <<< "scale=1; $bytes/1024")"
-    else
-        printf '%.1fMB' "$(bc <<< "scale=1; $bytes/1048576")"
     fi
 }
 
@@ -476,24 +395,7 @@ vcs_changes_summary() {
         local added=$(echo "$stat" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo 0)
         local removed=$(echo "$stat" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo 0)
 
-        # File type icon
-        local icon="📄"
-        case "${file##*.}" in
-            rs) icon="🦀" ;;
-            py) icon="🐍" ;;
-            ts|tsx) icon="📘" ;;
-            js|jsx) icon="📒" ;;
-            go) icon="🐹" ;;
-            rb) icon="💎" ;;
-            md) icon="📝" ;;
-            toml|yaml|yml|json) icon="⚙️ " ;;
-            sh|bash) icon="🐚" ;;
-            sql) icon="🗃️ " ;;
-            html|css) icon="🌐" ;;
-            Dockerfile|docker*) icon="🐳" ;;
-        esac
-
-        output+="  $icon ${C_WHITE}$file${C_RESET}"
+        output+="  ${SYM_BULLET} ${C_WHITE}$file${C_RESET}"
         [[ -n "$added" ]] && [[ "$added" != "0" ]] && output+=" ${C_GREEN}+$added${C_RESET}"
         [[ -n "$removed" ]] && [[ "$removed" != "0" ]] && output+=" ${C_RED}-$removed${C_RESET}"
         output+="\n"
@@ -565,71 +467,29 @@ beads_stats() {
 # Claude Execution
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# Stream Claude output and capture metrics in real-time
+# Run Claude and capture output
 run_claude_streaming() {
     local prompt_file="$1"
     local output_file="$2"
 
-    local temp_json=$(mktemp)
-    local exit_code=0
-
-    # Run Claude with stream-json, process output
-    # Note: We capture PIPESTATUS immediately after pipeline to get claude's exit code
+    # Run Claude with verbose output captured separately
+    # Using process substitution to capture exit code correctly
     cat "$prompt_file" | claude -p \
         --dangerously-skip-permissions \
         --model "${CONFIG[model]}" \
-        --output-format stream-json \
-        --verbose 2>&1 | tee "$temp_json" | \
-    while IFS= read -r line; do
-        # Try to parse as JSON
-        if echo "$line" | jq -e '.type' &>/dev/null; then
-            local type=$(echo "$line" | jq -r '.type')
+        --verbose 2>"$output_file.verbose"
 
-            case "$type" in
-                content_block_delta)
-                    # Extract and print text content
-                    local text=$(echo "$line" | jq -r '.delta.text // empty' 2>/dev/null)
-                    [[ -n "$text" ]] && printf '%s' "$text"
-                    ;;
-                message_start)
-                    # Could extract model info here
-                    ;;
-                message_delta)
-                    # Extract token usage
-                    local usage=$(echo "$line" | jq -r '.usage // empty' 2>/dev/null)
-                    [[ -n "$usage" ]] && echo "$usage" >> "$output_file.usage"
-                    ;;
-            esac
-        else
-            # Non-JSON line (verbose output), save to log
-            echo "$line" >> "$output_file.verbose"
-        fi
-    done
-    # Capture claude's exit code from PIPESTATUS (index 1: cat=0, claude=1, tee=2, while=3)
-    # Must be done immediately - any command resets PIPESTATUS
-    exit_code=${PIPESTATUS[1]}
-
-    # Move temp file to final location
-    mv "$temp_json" "$output_file.json"
-
-    return $exit_code
+    return ${PIPESTATUS[1]}
 }
 
-# Parse token usage from Claude output
+# Parse token usage from Claude verbose output
 parse_claude_metrics() {
     local output_file="$1"
 
     local input_tokens=0
     local output_tokens=0
 
-    # Try to get from usage file first
-    if [[ -f "$output_file.usage" ]]; then
-        input_tokens=$(jq -s 'map(.input_tokens // 0) | add' "$output_file.usage" 2>/dev/null || echo 0)
-        output_tokens=$(jq -s 'map(.output_tokens // 0) | add' "$output_file.usage" 2>/dev/null || echo 0)
-    fi
-
-    # Fallback: parse from verbose output
-    if [[ $input_tokens -eq 0 ]] && [[ -f "$output_file.verbose" ]]; then
+    if [[ -f "$output_file.verbose" ]]; then
         input_tokens=$(grep -oE 'input.?tokens[:\s]+([0-9,]+)' "$output_file.verbose" 2>/dev/null | grep -oE '[0-9,]+' | tr -d ',' | tail -1 || echo 0)
         output_tokens=$(grep -oE 'output.?tokens[:\s]+([0-9,]+)' "$output_file.verbose" 2>/dev/null | grep -oE '[0-9,]+' | tr -d ',' | tail -1 || echo 0)
     fi
