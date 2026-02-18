@@ -9,6 +9,14 @@
   --sl-color-bg-sidebar: #24272f;
 }
 
+/* Reset starlight-theme-next centered layout - keep sidebar flush left like default Starlight */
+@media (min-width: 800px) {
+  :root {
+    --sidebar-margin-left: 0rem;
+    --sl-nav-pad-x: 1.5rem;
+  }
+}
+
 /* Homepage header gradient */
 .hero h1 {
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 50%, #1e3a8a 100%);
