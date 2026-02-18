@@ -10,6 +10,11 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
+  vite: {
+    server: {
+      allowedHosts: ["loom"],
+    },
+  },
   image: {
     domains: ["fashionunited.com", "storage.cloud.google.com"],
     remotePatterns: [{
@@ -19,7 +24,8 @@ export default defineConfig({
   site: 'https://developer.fashionunited.com',
   integrations: [starlight({
     components: {
-      Head: "./src/components/starlight/Head.astro"
+      Head: "./src/components/starlight/Head.astro",
+      PageTitle: "./src/components/starlight/PageTitle.astro",
     },
     title: 'FashionUnited Docs',
     customCss: ['./src/styles/custom.css', '@fontsource/ibm-plex-mono/400.css', '@fontsource/ibm-plex-mono/600.css', '@fontsource-variable/inter', '@fontsource-variable/lora'],

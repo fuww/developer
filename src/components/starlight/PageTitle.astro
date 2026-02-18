@@ -1,0 +1,241 @@
+---
+import { PAGE_TITLE_ID } from '../constants.ts';
+const title = Astro.locals.starlightRoute.entry.data.title;
+---
+
+<div class="page-title-wrapper">
+	<h1 id={PAGE_TITLE_ID}>{title}</h1>
+
+	<div class="copy-page-container">
+		<button
+			class="copy-page-button"
+			aria-label="Copy page options"
+			aria-expanded="false"
+			aria-haspopup="menu"
+		>
+			<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+				<path d="M5.75 4.75H10.25M5.75 7.75H10.25M5.75 10.75H8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+				<path d="M3.25 2.75H12.75V13.25H3.25V2.75Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+			</svg>
+			<span>Copy page</span>
+			<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="chevron" aria-hidden="true">
+				<path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+		</button>
+
+		<div class="dropdown-menu" role="menu" aria-label="Page copy options" hidden>
+			<button class="dropdown-item copy-as-markdown" data-action="copy-markdown" role="menuitem">
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+					<path d="M5.75 4.75H10.25M5.75 7.75H10.25M5.75 10.75H8.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+					<path d="M3.25 2.75H12.75V13.25H3.25V2.75Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+				</svg>
+				<div>
+					<div class="item-title">Copy page</div>
+					<div class="item-description">Copy page as Markdown for LLMs</div>
+				</div>
+			</button>
+
+			<button class="dropdown-item view-as-markdown" data-action="view-markdown" role="menuitem">
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+					<path d="M2 8C2 8 4 4 8 4C12 4 14 8 14 8C14 8 12 12 8 12C4 12 2 8 2 8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+					<circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.5"/>
+				</svg>
+				<div>
+					<div class="item-title">View as Markdown</div>
+					<div class="item-description">View this page as plain text</div>
+				</div>
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	function setupCopyPageDropdown() {
+		const button = document.querySelector('.copy-page-button');
+		const dropdown = document.querySelector('.dropdown-menu');
+
+		if (!button || !dropdown) return;
+
+		// Remove any existing listeners by cloning (prevents duplicates on view transitions)
+		const newButton = button.cloneNode(true);
+		button.parentNode?.replaceChild(newButton, button);
+
+		newButton.addEventListener('click', (e) => {
+			e.stopPropagation();
+			const currentDropdown = document.querySelector('.dropdown-menu');
+			const currentButton = document.querySelector('.copy-page-button');
+			if (!currentDropdown) return;
+			const isHidden = currentDropdown.hasAttribute('hidden');
+			currentDropdown.toggleAttribute('hidden', !isHidden);
+			currentButton?.setAttribute('aria-expanded', String(!isHidden));
+		});
+
+		const closeDropdown = () => {
+			const currentDropdown = document.querySelector('.dropdown-menu');
+			const currentButton = document.querySelector('.copy-page-button');
+			if (currentDropdown) {
+				currentDropdown.setAttribute('hidden', '');
+				currentButton?.setAttribute('aria-expanded', 'false');
+			}
+		};
+		document.addEventListener('click', closeDropdown, { once: false });
+
+		const newCopyBtn = document.querySelector('[data-action="copy-markdown"]');
+		newCopyBtn?.addEventListener('click', async () => {
+			try {
+				const response = await fetch(window.location.pathname.replace(/\/$/, '') + '.md');
+				if (response.ok) {
+					const markdown = await response.text();
+					await navigator.clipboard.writeText(markdown);
+
+					const titleEl = newCopyBtn.querySelector('.item-title');
+					const originalText = titleEl?.textContent;
+					if (titleEl) {
+						titleEl.textContent = 'Copied!';
+						setTimeout(() => {
+							if (titleEl) {
+								titleEl.textContent = originalText || 'Copy page';
+							}
+						}, 2000);
+					}
+				}
+			} catch (error) {
+				console.error('Failed to copy:', error);
+			}
+			closeDropdown();
+		});
+
+		const newViewBtn = document.querySelector('[data-action="view-markdown"]');
+		newViewBtn?.addEventListener('click', () => {
+			const markdownUrl = window.location.pathname.replace(/\/$/, '') + '.md';
+			window.open(markdownUrl, '_blank');
+			closeDropdown();
+		});
+	}
+
+	document.addEventListener('DOMContentLoaded', setupCopyPageDropdown);
+	document.addEventListener('astro:page-load', setupCopyPageDropdown);
+</script>
+
+<style>
+	.page-title-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: var(--sl-text-h1);
+		line-height: var(--sl-line-height-headings);
+		font-weight: 600;
+		color: var(--sl-color-white);
+		flex: 1;
+	}
+
+	.copy-page-container {
+		position: relative;
+	}
+
+	.copy-page-button {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 0.75rem;
+		background: var(--sl-color-bg-nav);
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		color: var(--sl-color-white);
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s;
+		white-space: nowrap;
+	}
+
+	.copy-page-button:hover {
+		background: var(--sl-color-gray-6);
+		border-color: var(--sl-color-gray-4);
+	}
+
+	.copy-page-button .chevron {
+		transition: transform 0.2s;
+	}
+
+	.copy-page-button:hover .chevron {
+		transform: translateY(1px);
+	}
+
+	.dropdown-menu {
+		position: absolute;
+		top: calc(100% + 0.5rem);
+		right: 0;
+		min-width: 280px;
+		background: var(--sl-color-bg-nav);
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+		z-index: 100;
+		padding: 0.25rem;
+	}
+
+	.dropdown-menu[hidden] {
+		display: none;
+	}
+
+	.dropdown-item {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.75rem;
+		width: 100%;
+		padding: 0.75rem;
+		background: transparent;
+		border: none;
+		border-radius: 0.375rem;
+		color: var(--sl-color-white);
+		text-align: left;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+
+	.dropdown-item:hover {
+		background: var(--sl-color-gray-6);
+	}
+
+	.dropdown-item svg {
+		flex-shrink: 0;
+		margin-top: 0.125rem;
+		color: var(--sl-color-gray-3);
+	}
+
+	.item-title {
+		font-size: 0.875rem;
+		font-weight: 500;
+		line-height: 1.25;
+	}
+
+	.item-description {
+		font-size: 0.75rem;
+		color: var(--sl-color-gray-3);
+		line-height: 1.25;
+		margin-top: 0.125rem;
+	}
+
+	@media (max-width: 768px) {
+		.page-title-wrapper {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.copy-page-button span {
+			display: none;
+		}
+
+		.dropdown-menu {
+			right: auto;
+			left: 0;
+		}
+	}
+</style>
