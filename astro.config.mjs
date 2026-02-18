@@ -41,54 +41,79 @@ export default defineConfig({
         defer: true
       }
     }],
-    sidebar: [{
-      label: 'Docs',
-      items: [
-      // Each item here is one entry in the navigation menu.
+    sidebar: [
+      {
+        label: 'Getting Started',
+        items: [
+          { label: 'Introduction', link: '/docs/introduction/' },
+          { label: 'Logging In', link: '/docs/getting-started/login/' },
+          { label: 'Dashboard Overview', link: '/docs/getting-started/dashboard-overview/' },
+        ],
+      },
+      {
+        label: 'Jobs',
+        items: [
+          { label: 'Posting a Job', link: '/docs/dashboard-jobs/posting-a-job/' },
+          { label: 'Managing Applications', link: '/docs/dashboard-jobs/managing-applications/' },
+          { label: 'Job Analytics', link: '/docs/dashboard-jobs/job-analytics/' },
+        ],
+      },
+      {
+        label: 'Company Profile',
+        items: [
+          { label: 'Editing Your Profile', link: '/docs/company-profile/editing-your-profile/' },
+        ],
+      },
+      {
+        label: 'Credits & Billing',
+        items: [
+          { label: 'Credits and Billing', link: '/docs/billing/credits-and-billing/' },
+        ],
+      },
       {
         label: 'Advertising',
-        link: '/docs/advertising/'
-      }, {
-        label: 'FashionUnited for Websites - Embedding Jobs and News',
-        link: '/docs/fashionunited-for-websites/'
-      }, {
-        label: 'Header',
-        link: '/docs/header/'
-      }, {
-        label: 'Jobs',
-        link: '/docs/jobs/'
-      }, {
-        label: 'Logo',
-        link: '/docs/logo/'
-      }, {
-        label: 'System Requirements and Browsers',
-        link: '/docs/system-requirements-and-browsers/'
-      }]
-    }, {
-      label: 'Marketplace',
-      autogenerate: {
-        directory: 'docs/marketplace'
-      }
-    }, {
-      label: 'Editorial',
-      items: [{
-        label: 'Editorial Cheat Sheet',
-        link: '/docs/editorial-cheat-sheet/'
-      }, {
-        label: 'Editorial Style Guide',
-        link: '/docs/editorial-style-guide/'
-      }]
-    }, {
-      label: 'This site',
-      items: [{
-        label: 'Style Guide',
-        link: '/docs/style-guide/'
-      }]
-    }
-    // {
-    // 	label: 'Posts',
-    // 	autogenerate: { directory: 'posts' },
-    // },
+        items: [
+          { label: 'Advertising', link: '/docs/advertising/' },
+        ],
+      },
+      {
+        label: 'Editorial',
+        items: [
+          { label: 'Editorial Cheat Sheet', link: '/docs/editorial-cheat-sheet/' },
+          { label: 'Editorial Style Guide', link: '/docs/editorial-style-guide/' },
+        ],
+      },
+      {
+        label: 'Integration',
+        items: [
+          { label: 'FashionUnited for Websites', link: '/docs/fashionunited-for-websites/' },
+          { label: 'Jobs Feed (JSON/XML)', link: '/docs/jobs/' },
+        ],
+      },
+      {
+        label: 'Brand Assets',
+        items: [
+          { label: 'Header Image Requirements', link: '/docs/header/' },
+          { label: 'Logo', link: '/docs/logo/' },
+        ],
+      },
+      {
+        label: 'Marketplace',
+        autogenerate: { directory: 'docs/marketplace' },
+      },
+      {
+        label: 'Reference',
+        items: [
+          { label: 'System Requirements and Browsers', link: '/docs/system-requirements-and-browsers/' },
+          { label: 'Style Guide', link: '/docs/style-guide/' },
+        ],
+      },
+      {
+        label: 'Help',
+        items: [
+          { label: 'FAQ', link: '/docs/faq/' },
+        ],
+      },
     ]
   }), tailwind({
     // Disable the default base styles:
