@@ -4,7 +4,6 @@ import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightThemeNext from 'starlight-theme-next';
 import tailwind from "@astrojs/tailwind";
 import partytown from "@astrojs/partytown";
-import vtbot from "astro-vtbot";
 import node from "@astrojs/node";
 
 import react from "@astrojs/react";
@@ -31,7 +30,7 @@ export default defineConfig({
         icon: 'github'
       }
     ],
-    plugins: [starlightLlmsTxt(), starlightThemeNext()],
+    plugins: [starlightLlmsTxt({ rawContent: true }), starlightThemeNext()],
     head: [{
       tag: "script",
       attrs: {
@@ -118,7 +117,7 @@ export default defineConfig({
   }), tailwind({
     // Disable the default base styles:
     applyBaseStyles: false
-  }), partytown(), vtbot(), react()],
+  }), partytown(), react()],
   output: "server",
   adapter: node({
     mode: "standalone"

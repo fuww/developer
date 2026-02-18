@@ -1,0 +1,7 @@
+{
+  "last_failure": "2026-02-18T12:23:33.254530947Z",
+  "failure_count": 1,
+  "backoff_until": "2026-02-18T12:24:03.254531488Z",
+  "needs_manual_sync": false,
+  "failure_reason": "failed to get current branch: exit status 128"
+}
