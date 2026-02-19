@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useRef } from "react";
 import { createNoise3D } from "simplex-noise";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
 
 interface VortexProps {
   children?: any;
@@ -20,6 +20,7 @@ interface VortexProps {
 export const Vortex = (props: VortexProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
   const particleCount = props.particleCount || 700;
   const particlePropCount = 9;
   const particlePropsLength = particleCount * particlePropCount;
@@ -59,11 +60,15 @@ export const Vortex = (props: VortexProps) => {
     const container = containerRef.current;
     if (canvas && container) {
       const ctx = canvas.getContext("2d");
-
       if (ctx) {
         resize(canvas, ctx);
-        initParticles();
-        draw(canvas, ctx);
+        if (prefersReducedMotion) {
+          ctx.fillStyle = backgroundColor;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        } else {
+          initParticles();
+          draw(canvas, ctx);
+        }
       }
     }
   };
@@ -237,19 +242,20 @@ export const Vortex = (props: VortexProps) => {
   }, []);
 
   return (
-    <div className={cn("relative h-full w-full", props.containerClassName)}>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        ref={containerRef}
-        className="absolute h-full w-full inset-0 z-0 bg-transparent flex items-center justify-center"
-      >
-        <canvas ref={canvasRef}></canvas>
-      </motion.div>
-
-      <div className={cn("relative z-10", props.className)}>
-        {props.children}
+    <LazyMotion features={domAnimation}>
+      <div className={cn("relative h-full w-full", props.containerClassName)}>
+        <m.div
+          initial={prefersReducedMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          ref={containerRef}
+          className="absolute h-full w-full inset-0 z-0 bg-transparent flex items-center justify-center"
+        >
+          <canvas ref={canvasRef}></canvas>
+        </m.div>
+        <div className={cn("relative z-10", props.className)}>
+          {props.children}
+        </div>
       </div>
-    </div>
+    </LazyMotion>
   );
 };
