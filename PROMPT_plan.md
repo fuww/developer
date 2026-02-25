@@ -8,7 +8,7 @@
    - For each epic, verify child tasks cover all aspects of the specification
    - Check for missing dependencies using `bd dep cycles` (should be empty)
    - Identify any tasks that should block others but don't
-   
+
 2. Update the beads database to fix any issues found:
    - Create missing tasks with `bd create "title" -t task -p <priority> -d "description"`
    - Add missing dependencies with `bd dep add <child> <parent> --type blocks`
@@ -20,8 +20,8 @@
    - `bd blocked` should show tasks waiting on dependencies
    - `bd stats` should show accurate counts
 
-IMPORTANT: Plan only. Do NOT implement anything. Do NOT assume functionality is missing; 
+IMPORTANT: Plan only. Do NOT implement anything. Do NOT assume functionality is missing;
 use `bd list` and code search to verify first.
 
-ULTIMATE GOAL: We want to achieve [project-specific goal]. Ensure all necessary tasks 
+ULTIMATE GOAL: We want to achieve [project-specific goal]. Ensure all necessary tasks
 exist as beads with proper dependencies so `bd ready` always shows the right next work.

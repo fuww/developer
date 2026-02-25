@@ -1,0 +1,25 @@
+# Pre-commit file checks (builtin Rust hooks — zero network, instant startup)
+[[repos]]
+repo = "builtin"
+hooks = [
+  { id = "trailing-whitespace" },
+  { id = "end-of-file-fixer" },
+  { id = "check-yaml" },
+  { id = "check-json", exclude = "devcontainer\\.json$" },
+  { id = "check-merge-conflict" },
+  { id = "detect-private-key" },
+  { id = "check-added-large-files", args = ["--maxkb=500"] },
+]
+
+# Commit message validation (local shell hooks)
+[[repos]]
+repo = "local"
+hooks = [
+  { id = "capitalized-subject",  name = "Capitalized subject",      language = "system", entry = "sh -c 'head -1 \"$1\" | grep -q \"^[A-Z]\" || { echo \"Commit subject must start with a capital letter\"; exit 1; }' --", stages = ["commit-msg"] },
+  { id = "subject-max-length",   name = "Subject max 50 chars",     language = "system", entry = "sh -c 'len=$(head -1 \"$1\" | wc -m); [ \"$len\" -le 51 ] || { echo \"Commit subject too long ($len chars, max 50)\"; exit 1; }' --", stages = ["commit-msg"] },
+  { id = "body-max-length",      name = "Body lines max 72 chars",  language = "system", entry = "sh -c 'grep -v \"^#\" \"$1\" | tail -n +3 | awk \"length > 72 { print NR\\\": \\\"\\$0; found=1 } END { if (found) { print \\\"Body lines must be 72 chars or less\\\"; exit 1 } }\"' --", stages = ["commit-msg"] },
+  { id = "no-trailing-period",   name = "No trailing period",       language = "system", entry = "sh -c 'head -1 \"$1\" | grep -q \"\\\\.$\" && { echo \"Commit subject must not end with a period\"; exit 1; } || true' --", stages = ["commit-msg"] },
+  { id = "github-issue-ref",     name = "GitHub issue reference",   language = "system", entry = "sh -c 'head -1 \"$1\" | grep -q \"#[0-9]\" || { echo \"Commit subject must reference a GitHub issue (e.g. #123)\"; exit 1; }' --", stages = ["commit-msg"] },
+  { id = "max-message-length",   name = "Max 500 chars total",      language = "system", entry = "sh -c 'chars=$(wc -c < \"$1\"); [ \"$chars\" -le 500 ] || { echo \"Commit message too long ($chars chars, max 500)\"; exit 1; }' --", stages = ["commit-msg"] },
+  { id = "no-branch-push",       name = "No push to main/master",   language = "system", entry = "sh -c 'branch=$(git symbolic-ref --short HEAD 2>/dev/null); case \"$branch\" in main|master|development) echo \"Direct push to $branch is not allowed\"; exit 1;; esac' --", stages = ["pre-push"] },
+]

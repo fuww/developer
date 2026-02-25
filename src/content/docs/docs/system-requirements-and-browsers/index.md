@@ -1,6 +1,6 @@
 ---
 title: "System requirements and browsers"
-images: 
+images:
   - "hero-create.jpg"
 background_position: "50% 10%"
 menu:

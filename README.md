@@ -102,4 +102,3 @@ review_max_revisions = 3
 - [The Ralph Wiggum Technique](https://ghuntley.com/ralph/) — Geoffrey Huntley's original post
 - [how-to-ralph-wiggum](https://github.com/ghuntley/how-to-ralph-wiggum) — Reference implementation and methodology guide
 - [Inventing the Ralph Wiggum Loop](https://devinterrupted.substack.com/p/inventing-the-ralph-wiggum-loop-creator) — Dev Interrupted podcast interview
-

@@ -135,8 +135,8 @@ operating margin of 14.7 percent in the prior year.
 
 ## Executive, Education
 
-To publish to `.com/education` and `.com/executive` via [dashboard.fashionunited.com](https://dashboard.fashionunited.com), you need to add the tag corresponding to the category you want to publish to. 
-These tags will only change the category you are posting to on `fashionunited.com` and leave the other newsboards/platforms/domains you are posting to intact.  
+To publish to `.com/education` and `.com/executive` via [dashboard.fashionunited.com](https://dashboard.fashionunited.com), you need to add the tag corresponding to the category you want to publish to.
+These tags will only change the category you are posting to on `fashionunited.com` and leave the other newsboards/platforms/domains you are posting to intact.
 The tags to use are as follows:
 
 - `Executive Management` => will post to `.com/executive/management` category
@@ -146,7 +146,7 @@ The tags to use are as follows:
 
 ### Example
 
-Posting an article, you select the `news/fashion` category and post to multiple newsboards, including `US` and `UK`. To post the article to executive on .com, you would then add the **tag** `Education Schools`.  
+Posting an article, you select the `news/fashion` category and post to multiple newsboards, including `US` and `UK`. To post the article to executive on .com, you would then add the **tag** `Education Schools`.
 Result: The article will be posted in **UK** `news/fashion` and **US** `education/schools`
 
 ## Embed Video
@@ -471,7 +471,7 @@ Example:
 <details>
   <summary aria-haspopup="menu" role="button">
     Example of credit details.
-    <span class="asterisk-icon"></span>Notice how it uses an asterisk instead of 
+    <span class="asterisk-icon"></span>Notice how it uses an asterisk instead of
     a chevron icon
   </summary>
   <details-menu role="menu">
