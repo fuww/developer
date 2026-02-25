@@ -62,7 +62,7 @@ To help you getting started, here's some example queries for the Marketplace.
         brand{
           name
         }
-        imageUrl       
+        imageUrl
       }
     }
   }

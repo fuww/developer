@@ -1,0 +1,39 @@
+name: Prek
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  determine-runner:
+    runs-on: ubuntu-latest
+    outputs:
+      runner: ${{ steps.runner.outputs.use-runner }}
+    steps:
+      - name: Determine runner
+        id: runner
+        uses: mikehardy/runner-fallback-action@v1
+        with:
+          github-token: ${{ secrets.GH_RUNNER_TOKEN }}
+          primary-runner: self-hosted-16-cores
+          fallback-runner: ubuntu-latest
+          organization: fuww
+          fallback-on-error: true
+
+  prek:
+    runs-on: ${{ fromJson(needs.determine-runner.outputs.runner) }}
+    needs: [determine-runner]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Run prek checks
+        run: nix develop --command prek run --all-files
