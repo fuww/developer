@@ -19,14 +19,16 @@
         pkgs = import nixpkgs { inherit system; };
       });
 
-      beadsRustVersion = "0.1.19";
+      beadsRustVersion = "0.1.14";
       beadsRustHashes = {
-        "x86_64-linux" = "sha256-rL0PabvZxOLr+iOmZfmpB2tgoCxc/CQLVDFB8NRWHYY=";
-        "x86_64-darwin" = "sha256-98srAx9fRr7NDbzVjIs4za7KONicVgPkZEimSaZ85/w=";
-        "aarch64-darwin" = "sha256-p8cZ6+c4LUSMU1Cvz+lus6NfYYTWFilCD2Jt2G+PGSg=";
+        "x86_64-linux" = "sha256-xPR3IDKGjQri4E5KE2KZUcBfFPCbp5H/cOFhXNjrqxs=";
+        "aarch64-linux" = "sha256-voOrwmDxlhS0kJXlf9Y5sNghEVriKysLokTbDOGTwgA=";
+        "x86_64-darwin" = "sha256-y8Pouq7EasFTCsqmF+NT6UQnhCjmN2fjv/bafKBL11c=";
+        "aarch64-darwin" = "sha256-1IJrD3UvqWk2B8jT8JV5oEFrlTE9CHi0nKqyQ7N7LbI=";
       };
       beadsRustTargets = {
         "x86_64-linux" = "linux_amd64";
+        "aarch64-linux" = "linux_arm64";
         "x86_64-darwin" = "darwin_amd64";
         "aarch64-darwin" = "darwin_arm64";
       };
@@ -90,15 +92,15 @@
         default = pkgs.mkShell {
           packages = [
             prek
-          ] ++ pkgs.lib.optional (builtins.hasAttr system beadsRustHashes) beads-rust
-            ++ (with pkgs; [
+            beads-rust
+          ] ++ (with pkgs; [
             bun
             nixpkgs-fmt
           ]);
 
           shellHook = ''
             prek install
-            echo "  Beads:       $(br --version 2>/dev/null || echo 'not available on this platform')"
+            echo "  Beads:       $(br --version)"
           '';
         };
       });
