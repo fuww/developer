@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import fashionunitedTheme from '@fashionunited/starlight-plugin-theme';
+import fashionunitedTheme from '@fuww/starlight-plugin-theme';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightThemeNext from 'starlight-theme-next';
 import tailwind from "@astrojs/tailwind";

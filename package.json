@@ -19,7 +19,7 @@
     "@astrojs/starlight": "^0.37.3",
     "@astrojs/starlight-tailwind": "^3.0.1",
     "@astrojs/tailwind": "^6.0.2",
-    "@fashionunited/starlight-plugin-theme": "../starlight-plugin-theme",
+    "@fuww/starlight-plugin-theme": "../starlight-plugin-theme",
     "@radix-ui/react-label": "^2.1.8",
     "@types/react": "^18.3.7",
     "@types/react-dom": "^18.3.0",
