@@ -4,8 +4,8 @@ whether the work is ready to ship or needs revision.
 ## Instructions
 
 1. Run `jj log -r 'ancestors(@, 5)'` and `jj diff -r @-` to see the latest changes.
-2. Run `bd list --status in_progress --json` to see what task was being worked on.
-3. Run `bd show <id>` for each in-progress task to understand the acceptance criteria.
+2. Run `br list --status in_progress --json` to see what task was being worked on.
+3. Run `br show <id>` for each in-progress task to understand the acceptance criteria.
 4. Evaluate the changes against the acceptance criteria:
    - Does the implementation match the specification?
    - Are there obvious bugs, missing error handling, or logic errors?

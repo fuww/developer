@@ -45,7 +45,7 @@ declare -A CONFIG=(
     [checkpoint_interval]=5
     [verbose]=false
     [review_enabled]=true
-    [review_model]="gpt-5.2-codex"
+    [review_model]="gpt-5.3-codex"
     [review_max_revisions]=5
     [epic]=""
 )
@@ -285,7 +285,8 @@ spinner_stop() {
 
 draw_header() {
     local width=$TERM_COLS
-    local title=" BEADS LOOP v$VERSION "
+    local mode_label="${CONFIG[mode]^^}"
+    local title=" BEADS LOOP v$VERSION :: ${mode_label} MODE "
     local pad=$(( (width - ${#title}) / 2 ))
 
     echo -e "${C_BG_DARK}${C_WHITE}"
@@ -309,6 +310,7 @@ draw_status_bar() {
     printf "${C_DIM}│${C_RESET} "
     printf "${status_color}%s %s${C_RESET}" "$status_icon" "${STATE[status]^^}"
     printf " ${C_DIM}│${C_RESET} "
+    printf "${C_BOLD}${C_CYAN}%s${C_RESET} " "${CONFIG[mode]^^}"
     printf "${C_CYAN}%s${C_RESET} iter %d" "$SYM_CLOCK" "${STATE[iteration]}"
     [[ ${CONFIG[max_iterations]} -gt 0 ]] && printf "/${CONFIG[max_iterations]}"
     printf " ${C_DIM}│${C_RESET} "
@@ -527,12 +529,12 @@ vcs_push() {
 
 beads_check() {
     if [[ ! -d ".beads" ]]; then
-        log ERROR "Beads not initialized. Run: ${C_CYAN}bd init${C_RESET}"
+        log ERROR "Beads not initialized. Run: ${C_CYAN}br init${C_RESET}"
         return 1
     fi
 
-    if ! command -v bd &>/dev/null; then
-        log ERROR "bd command not found"
+    if ! command -v br &>/dev/null; then
+        log ERROR "br command not found"
         return 1
     fi
 
@@ -542,23 +544,23 @@ beads_check() {
 beads_ready_count() {
     local epic_flag=""
     [[ -n "${CONFIG[epic]}" ]] && epic_flag="--parent ${CONFIG[epic]}"
-    bd ready --json $epic_flag 2>/dev/null | jq -r 'length' 2>/dev/null || echo "0"
+    br ready --json $epic_flag 2>/dev/null | jq -r 'length' 2>/dev/null || echo "0"
 }
 
 beads_ready_items() {
     local limit=${1:-5}
     local epic_flag=""
     [[ -n "${CONFIG[epic]}" ]] && epic_flag="--parent ${CONFIG[epic]}"
-    bd ready --json $epic_flag 2>/dev/null | jq -r ".[:$limit][] | \"  ${SYM_BULLET} \" + .title" 2>/dev/null || \
-        bd ready --limit "$limit" $epic_flag 2>/dev/null
+    br ready --json $epic_flag 2>/dev/null | jq -r ".[:$limit][] | \"  ${SYM_BULLET} \" + .title" 2>/dev/null || \
+        br ready --limit "$limit" $epic_flag 2>/dev/null
 }
 
 beads_sync() {
-    bd sync 2>/dev/null || true
+    br sync 2>/dev/null || true
 }
 
 beads_stats() {
-    bd stats 2>/dev/null || echo "No stats available"
+    br stats 2>/dev/null || echo "No stats available"
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -730,7 +732,7 @@ run_review() {
         echo '```'
         echo ""
         echo "## In-progress tasks"
-        bd list --status in_progress 2>/dev/null || echo "(none)"
+        br list --status in_progress 2>/dev/null || echo "(none)"
         echo ""
         cat "$prompt_file"
     } > "$review_input"
@@ -908,7 +910,7 @@ run_iteration() {
     # Header
     echo ""
     echo -e "${C_BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${C_RESET}"
-    echo -e "${C_BOLD}  ITERATION $iter_num${C_RESET}  ${C_DIM}$(date '+%H:%M:%S')${C_RESET}  ${C_DIM}commit:${C_RESET} $(vcs_commit_short)"
+    echo -e "${C_BOLD}  ${CONFIG[mode]^^} ITERATION $iter_num${C_RESET}  ${C_DIM}$(date '+%H:%M:%S')${C_RESET}  ${C_DIM}commit:${C_RESET} $(vcs_commit_short)"
     echo -e "${C_BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${C_RESET}"
 
     # Sync and show ready work
@@ -956,8 +958,8 @@ run_iteration() {
         {
             echo "## Epic Context"
             echo "You are working within epic \`${CONFIG[epic]}\`. Scope all task selection to this epic."
-            echo "Use \`bd ready --json --limit 1 --type task --parent ${CONFIG[epic]}\` instead of the default bd ready call."
-            echo "If no tasks are found, try \`bd ready --json --limit 1 --type bug --parent ${CONFIG[epic]}\`."
+            echo "Use \`br ready --json --limit 1 --type task --parent ${CONFIG[epic]}\` instead of the default br ready call."
+            echo "If no tasks are found, try \`br ready --json --limit 1 --type bug --parent ${CONFIG[epic]}\`."
             echo ""
             cat "$prompt_file"
         } > "$epic_prompt_file"
@@ -1089,7 +1091,7 @@ run_iteration() {
     # Results
     echo ""
     echo -e "${C_GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${C_RESET}"
-    echo -e "  ${C_GREEN}${SYM_CHECK} Iteration $iter_num complete${C_RESET}"
+    echo -e "  ${C_GREEN}${SYM_CHECK} ${CONFIG[mode]^^} Iteration $iter_num complete${C_RESET}"
     printf "  ${C_DIM}Duration:${C_RESET} %-12s" "$(format_duration $iter_duration)"
     printf "${C_DIM}Tokens:${C_RESET} %-10s" "$(format_number $tokens)"
     printf "${C_DIM}Cost:${C_RESET} \$%s\n" "$cost"
@@ -1296,7 +1298,7 @@ ${C_BOLD}OPTIONS${C_RESET}
     --webhook URL       Send events to webhook URL
     --epic ID           Scope work to children of a specific epic
     --no-review         Disable review phase after each iteration
-    --review-model M    Review model for codex exec (default: gpt-5.2-codex)
+    --review-model M    Review model for codex exec (default: gpt-5.3-codex)
     --review-max-revisions N
                         Max revision attempts on REVISE (default: 3)
     -v, --verbose       Verbose output
@@ -1348,7 +1350,10 @@ parse_args() {
                 shift ;;
             plan|build)
                 CONFIG[mode]="$1"
-                [[ "$1" == "plan" ]] && [[ ${CONFIG[max_iterations]} -eq 0 ]] && CONFIG[max_iterations]=3
+                if [[ "$1" == "plan" ]]; then
+                    [[ ${CONFIG[max_iterations]} -eq 0 ]] && CONFIG[max_iterations]=3
+                    CONFIG[review_enabled]=false
+                fi
                 shift ;;
             -n|--max)
                 CONFIG[max_iterations]="$2"
