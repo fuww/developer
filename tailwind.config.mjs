@@ -1,5 +1,7 @@
 import starlightPlugin from '@astrojs/starlight-tailwind';
-import { fuThemePreset, accent, gray } from '@fashionunited/starlight-plugin-theme/tailwind-preset';
+import { fuThemePreset, accent, gray } from '@fuww/starlight-plugin-theme/tailwind-preset';
+import typography from '@tailwindcss/typography';
+import animate from 'tailwindcss-animate';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -9,7 +11,7 @@ export default {
 		starlightPlugin({
 			colors: { accent, gray }
 		}),
-		require("@tailwindcss/typography"),
-		require("tailwindcss-animate"),
+		typography,
+		animate,
 	],
 }

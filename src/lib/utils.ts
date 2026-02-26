@@ -1,1 +1,1 @@
-export { cn } from "@fashionunited/starlight-plugin-theme/lib/utils";
+export { cn } from "@fuww/starlight-plugin-theme/lib/utils";
