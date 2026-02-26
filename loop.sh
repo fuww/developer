@@ -1300,7 +1300,7 @@ ${C_BOLD}OPTIONS${C_RESET}
     --no-review         Disable review phase after each iteration
     --review-model M    Review model for codex exec (default: gpt-5.3-codex)
     --review-max-revisions N
-                        Max revision attempts on REVISE (default: 3)
+                        Max revision attempts on REVISE (default: 5)
     -v, --verbose       Verbose output
     -h, --help          Show this help
 
