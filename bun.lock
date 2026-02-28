@@ -13,16 +13,12 @@
         "@astrojs/starlight": "^0.37.3",
         "@astrojs/starlight-tailwind": "^3.0.1",
         "@astrojs/tailwind": "^6.0.2",
-        "@fontsource-variable/inter": "^5.2.8",
-        "@fontsource-variable/lora": "^5.2.8",
-        "@fontsource/ibm-plex-mono": "^5.2.7",
+        "@fuww/starlight-plugin-theme": "github:fuww/starlight-plugin-theme#v0.1.0",
         "@radix-ui/react-label": "^2.1.8",
-        "@radix-ui/react-slot": "^1.2.4",
         "@types/react": "^18.3.7",
         "@types/react-dom": "^18.3.0",
         "astro": "^5.16.13",
         "class-variance-authority": "^0.7.1",
-        "clsx": "^2.1.1",
         "framer-motion": "^12.23.24",
         "lucide-react": "^0.562.0",
         "react": "^18.3.1",
@@ -31,7 +27,6 @@
         "simplex-noise": "^4.0.3",
         "starlight-llms-txt": "^0.6.1",
         "starlight-theme-next": "^0.3.3",
-        "tailwind-merge": "^2.6.0",
         "tailwindcss": "^3.4.19",
         "tailwindcss-animate": "^1.0.7",
         "typescript": "^5.9.3",
@@ -40,7 +35,6 @@
         "@playwright/test": "^1.57.0",
         "@tailwindcss/typography": "^0.5.19",
         "@types/node": "^20.14.11",
-        "astro-vtbot": "^2.1.10",
       },
     },
   },
@@ -204,6 +198,8 @@
     "@fontsource-variable/lora": ["@fontsource-variable/lora@5.2.8", "", {}, "sha512-cxjTJ9BbOWIzusewR4UMBLVePvTSWV6dtNaNsCkF/oKoyA68fJGWfaYCILOOP1BObE4dmjfZ3xo6m9hdHhtYhg=="],
 
     "@fontsource/ibm-plex-mono": ["@fontsource/ibm-plex-mono@5.2.7", "", {}, "sha512-MKAb8qV+CaiMQn2B0dIi1OV3565NYzp3WN5b4oT6LTkk+F0jR6j0ZN+5BKJiIhffDC3rtBULsYZE65+0018z9w=="],
+
+    "@fuww/starlight-plugin-theme": ["@fuww/starlight-plugin-theme@github:fuww/starlight-plugin-theme#6273684", { "dependencies": { "@fontsource-variable/inter": "^5.2.8", "@fontsource-variable/lora": "^5.2.8", "@fontsource/ibm-plex-mono": "^5.2.7", "@radix-ui/react-slot": "^1.2.4", "astro-vtbot": "^2.1.10", "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "tailwind-merge": "^2.6.0" }, "peerDependencies": { "@astrojs/starlight": ">=0.30.0", "astro": ">=5.0.0", "tailwindcss": ">=3.0.0" } }, "fuww-starlight-plugin-theme-6273684"],
 
     "@img/colour": ["@img/colour@1.0.0", "", {}, "sha512-A5P/LfWGFSl6nsckYtjw9da+19jB8hkJ6ACTGcDfEJ0aE+l2n2El7dsVM7UVHZQ9s2lmYMWlrS21YLy2IR1LUw=="],
 

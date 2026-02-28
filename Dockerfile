@@ -5,11 +5,11 @@ WORKDIR /app
 RUN apk add --no-cache python3 py3-setuptools make g++ vips-dev vips
 
 FROM base AS deps
-COPY package.json bun.lock ./
+COPY package.json bun.lock .npmrc ./
 RUN bun install --frozen-lockfile
 
 FROM base AS prod-deps
-COPY package.json bun.lock ./
+COPY package.json bun.lock .npmrc ./
 RUN bun install --frozen-lockfile --production && \
     rm -rf /root/.bun/install/cache
 
