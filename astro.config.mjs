@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import fashionunitedTheme from '@fuww/starlight-plugin-theme';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightThemeNext from 'starlight-theme-next';
 import tailwind from "@astrojs/tailwind";
@@ -23,12 +24,7 @@ export default defineConfig({
   },
   site: 'https://developer.fashionunited.com',
   integrations: [starlight({
-    components: {
-      Head: "./src/components/starlight/Head.astro",
-      PageTitle: "./src/components/starlight/PageTitle.astro",
-    },
     title: 'FashionUnited Docs',
-    customCss: ['./src/styles/custom.css', '@fontsource/ibm-plex-mono/400.css', '@fontsource/ibm-plex-mono/600.css', '@fontsource-variable/inter', '@fontsource-variable/lora'],
     social: [
       {
         label: 'GitHub',
@@ -36,7 +32,7 @@ export default defineConfig({
         icon: 'github'
       }
     ],
-    plugins: [starlightLlmsTxt({ rawContent: true }), starlightThemeNext()],
+    plugins: [fashionunitedTheme(), starlightLlmsTxt({ rawContent: true }), starlightThemeNext()],
     head: [{
       tag: "script",
       attrs: {

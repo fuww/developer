@@ -1,4 +1,6 @@
-0a. Run `br ready --json --limit 1` to find the highest priority unblocked task.
+0a. Run `br ready --json --limit 1 --type task` to find the highest priority unblocked task.
+    If no tasks are found, try `br ready --json --limit 1 --type bug` for bugs.
+    Never pick an epic directly — epics contain child tasks to work on instead.
 0b. Run `br show <task-id>` to read the full specification.
 0c. For reference, the application source code is in `src/*`.
 
