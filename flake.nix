@@ -46,6 +46,15 @@
         "aarch64-linux" = "aarch64-unknown-linux-gnu";
         "aarch64-darwin" = "aarch64-apple-darwin";
       };
+      codexVersion = "0.106.0";
+      codexHashes = {
+        "x86_64-linux" = "sha256-T3D3t3V+JawmyiN1TRGzzLPeGSyCYP1rTylKNcssZ3w=";
+      };
+      codexVendorDirs = {
+        "x86_64-linux" = "x86_64-unknown-linux-musl";
+      };
+      geminiVersion = "0.31.0";
+      geminiHash = "sha256-b/xQN42G06Iu82MOKqLb8ybuBfvdtx/dlefI1YfXVeQ=";
     in
     {
       devShells = forAllSystems ({ pkgs, system }: let
@@ -88,11 +97,56 @@
             license = pkgs.lib.licenses.mit;
           };
         };
+        codex = pkgs.stdenv.mkDerivation {
+          pname = "codex";
+          version = codexVersion;
+          src = pkgs.fetchurl {
+            url = "https://registry.npmjs.org/@openai/codex/-/codex-${codexVersion}-linux-x64.tgz";
+            hash = codexHashes.${system};
+          };
+          sourceRoot = ".";
+          unpackPhase = ''
+            tar xzf $src
+          '';
+          installPhase = ''
+            mkdir -p $out/bin
+            cp package/vendor/${codexVendorDirs.${system}}/codex/codex $out/bin/codex
+            chmod +x $out/bin/codex
+          '';
+          meta = {
+            description = "OpenAI Codex CLI coding agent";
+            homepage = "https://github.com/openai/codex";
+            license = pkgs.lib.licenses.asl20;
+          };
+        };
+        gemini-cli = pkgs.stdenv.mkDerivation {
+          pname = "gemini-cli";
+          version = geminiVersion;
+          src = pkgs.fetchurl {
+            url = "https://github.com/google-gemini/gemini-cli/releases/download/v${geminiVersion}/gemini.js";
+            hash = geminiHash;
+          };
+          dontUnpack = true;
+          nativeBuildInputs = [ pkgs.makeWrapper ];
+          installPhase = ''
+            mkdir -p $out/lib $out/bin
+            cp $src $out/lib/gemini.js
+            makeWrapper ${pkgs.nodejs}/bin/node $out/bin/gemini \
+              --add-flags "$out/lib/gemini.js"
+          '';
+          meta = {
+            description = "Google Gemini CLI coding agent";
+            homepage = "https://github.com/google-gemini/gemini-cli";
+            license = pkgs.lib.licenses.asl20;
+          };
+        };
       in {
         default = pkgs.mkShell {
           packages = [
             prek
             beads-rust
+            codex
+            gemini-cli
           ] ++ (with pkgs; [
             bun
             nixpkgs-fmt
