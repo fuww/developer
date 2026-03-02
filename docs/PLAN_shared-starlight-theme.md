@@ -30,12 +30,12 @@ The `developer` and `about` repos are both Astro Starlight sites with the same F
 
 ## Options
 
-### Option A: Shared npm package (`@fashionunited/starlight-theme`)
+### Option A: Shared npm package (`@fuww/starlight-theme`)
 
 Create a new repo (or a directory in the org workspace) that publishes an npm package containing:
 
 ```
-@fashionunited/starlight-theme/
+@fuww/starlight-theme/
   tailwind.config.mjs      # The base config (colors, fonts, gradients, plugins)
   tailwind-preset.mjs       # Tailwind preset (importable, mergeable)
   styles/
@@ -58,7 +58,7 @@ Create a new repo (or a directory in the org workspace) that publishes an npm pa
 
 ```js
 // tailwind.config.mjs
-import { fuThemePreset } from '@fashionunited/starlight-theme/tailwind-preset';
+import { fuThemePreset } from '@fuww/starlight-theme/tailwind-preset';
 export default {
   presets: [fuThemePreset],
   // site-specific overrides here
@@ -67,7 +67,7 @@ export default {
 
 ```js
 // astro.config.mjs
-import { starlightConfig } from '@fashionunited/starlight-theme';
+import { starlightConfig } from '@fuww/starlight-theme';
 export default defineConfig({
   integrations: [
     starlight({
@@ -96,7 +96,7 @@ export default defineConfig({
 
 Starlight has a [plugin API](https://starlight.astro.build/reference/plugins/) that can inject CSS, components, and configuration. This is what `starlight-theme-next` already does for you.
 
-Create `@fashionunited/starlight-plugin-theme`:
+Create `@fuww/starlight-plugin-theme`:
 
 ```ts
 // index.ts
@@ -109,13 +109,13 @@ export default function fashionunitedTheme(): StarlightPlugin {
       setup({ config, updateConfig, addIntegration }) {
         updateConfig({
           customCss: [
-            '@fashionunited/starlight-plugin-theme/styles/base.css',
-            '@fashionunited/starlight-plugin-theme/styles/globals.css',
+            '@fuww/starlight-plugin-theme/styles/base.css',
+            '@fuww/starlight-plugin-theme/styles/globals.css',
             ...config.customCss,
           ],
           components: {
-            Head: '@fashionunited/starlight-plugin-theme/components/Head.astro',
-            PageTitle: '@fashionunited/starlight-plugin-theme/components/PageTitle.astro',
+            Head: '@fuww/starlight-plugin-theme/components/Head.astro',
+            PageTitle: '@fuww/starlight-plugin-theme/components/PageTitle.astro',
             ...config.components, // consumer overrides win
           },
         });
@@ -129,7 +129,7 @@ export default function fashionunitedTheme(): StarlightPlugin {
 
 ```js
 // astro.config.mjs
-import fashionunitedTheme from '@fashionunited/starlight-plugin-theme';
+import fashionunitedTheme from '@fuww/starlight-plugin-theme';
 
 starlight({
   plugins: [fashionunitedTheme(), starlightLlmsTxt(), starlightThemeNext()],
@@ -196,7 +196,7 @@ The Tailwind preset can ship alongside the plugin as a separate export. The shad
 
 ### Phase 1: Extract shared theme (new package)
 
-1. Create `@fashionunited/starlight-plugin-theme` repo (or `/theme` in the org workspace)
+1. Create `@fuww/starlight-plugin-theme` repo (or `/theme` in the org workspace)
 2. Move into it:
    - `styles/base.css` — the shared ~55 lines from custom.css / tailwind.css (dark mode fix, hero gradient, site-title gradient, button gradients, sidebar active state)
    - `styles/globals.css` — the shadcn CSS variable system (pick one source of truth, reconcile the HSL drift)
@@ -211,7 +211,7 @@ The Tailwind preset can ship alongside the plugin as a separate export. The shad
 
 ### Phase 2: Migrate developer site
 
-1. `bun add @fashionunited/starlight-plugin-theme`
+1. `bun add @fuww/starlight-plugin-theme`
 2. Replace `tailwind.config.mjs` with preset import + site-specific overrides only
 3. Replace `custom.css` with an import of the shared base (or let the plugin inject it)
 4. Remove `globals.css`, `utils.ts`, `constants.ts`, `button.tsx`, `card.tsx`, `PageTitle.astro` (now from package)
@@ -220,7 +220,7 @@ The Tailwind preset can ship alongside the plugin as a separate export. The shad
 
 ### Phase 3: Migrate about site
 
-1. `bun add @fashionunited/starlight-plugin-theme`
+1. `bun add @fuww/starlight-plugin-theme`
 2. Replace shared portions of `tailwind.config.mjs` with preset
 3. Split `src/tailwind.css` — shared base moves to package, prompt system CSS stays local
 4. Remove duplicated files
