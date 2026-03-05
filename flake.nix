@@ -145,9 +145,8 @@
           packages = [
             prek
             beads-rust
-            codex
             gemini-cli
-          ] ++ (with pkgs; [
+          ] ++ (pkgs.lib.optionals (codexHashes ? ${system}) [ codex ]) ++ (with pkgs; [
             bun
             nixpkgs-fmt
           ]);
