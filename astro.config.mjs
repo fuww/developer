@@ -85,6 +85,19 @@ export default defineConfig({
         ],
       },
       {
+        label: 'Onboarding',
+        items: [
+          { label: 'Dashboard Access', link: '/docs/onboarding/dashboard-access/' },
+          { label: 'Job Layout', link: '/docs/onboarding/job-layout/' },
+          { label: 'Employer Page', link: '/docs/onboarding/employer-page/' },
+          { label: 'Manual Job Posting', link: '/docs/onboarding/manual-posting/' },
+          { label: 'Integrations (Feed & Scraper)', link: '/docs/onboarding/integrations/' },
+          { label: 'Outbound Job Feed', link: '/docs/onboarding/outbound-feed/' },
+          { label: 'Job Embedder', link: '/docs/onboarding/job-embedder/' },
+          { label: 'Premium Employer', link: '/docs/onboarding/premium-employer/' },
+        ],
+      },
+      {
         label: 'Integration',
         items: [
           { label: 'FashionUnited for Websites', link: '/docs/fashionunited-for-websites/' },
