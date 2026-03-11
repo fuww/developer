@@ -17,3 +17,5 @@ requirements:
 
 Higher resolution or bigger image size is always better in this case. Also, we
 can always downsize to the specified dimensions.
+
+See also: [Premium Header Image](/docs/jobs/premium-employer/premium-header/) for premium employer banner images, and [Job Layout](/docs/jobs/job-layout/) for job posting image requirements.

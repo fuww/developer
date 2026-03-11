@@ -1,14 +1,14 @@
 ---
-title: "Posting jobs, feed integration via JSON or XML"
+title: "Job Feed Inbound (JSON/XML)"
 author: Joost van der Laan
 ---
-
-# Introduction
 
 FashionUnited’s feed service provides a full suite of real-time, highly
 available Jobboard transactions. This service opens the door to FashionUnited’s
 infrastructure and enables you to execute a wide variety of jobboard
 transactions empowering you to control your content at FashionUnited.
+
+To be able to set up a feed we need a so-called XML URL. You can share this with the Customer Service team via [jobs@fashionunited.com](mailto:jobs@fashionunited.com). In this link all of your jobs should be found. Sometimes the link also contains jobs of several clients. The link can also be called RSS, JSON or API link/URL.
 
 To keep things simple, we also accept existing feeds you might have created for
 other jobboards, like:
@@ -21,7 +21,27 @@ other jobboards, like:
 
 Therefore, as long as you make sure all the jobs you want posted on the
 FashionUnited platform are in your JSON or XML feed, we make sure they are shown
-on the FashionUnited platform.
+on the FashionUnited platform. Also some providers give clients the ability to share a link with us in which all jobs they have open currently are visible.
+
+The feed refreshes once per day during the week and syncs the content of the feed with what is displayed on the FashionUnited job board.
+
+For an overview of all integration options, see [Integrations Overview](/docs/jobs/integrations-overview/). To send your FashionUnited jobs to your own website instead, see [Job Feed Outbound](/docs/jobs/outbound-feed/).
+
+## Mandatory fields
+
+The following fields are required in your feed:
+
+- **Unique job ID** (`externalId`) -- unique identifier in your system
+- **Job title** (`title`) -- only the title, no location etc.
+- **Job category** (`category`) -- one of: "Design & Creative", "Internships", "Other", "Product & Supply Chain", "Retail Management & In-store", "Sales & Marketing"
+- **Teaser text** (`qualifications`) -- short description for the job list
+- **Vacancy text** (`description`) -- full job description
+- **City** (`city`) -- an address can also be sent in an `address` field
+- **Country** (`country`)
+- **Company name** (`company`)
+- **Apply URL** -- unique per job ID
+
+## Supported locales
 
 As of now we provide jobboard services for the following countries:
 

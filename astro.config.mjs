@@ -54,9 +54,33 @@ export default defineConfig({
       {
         label: 'Jobs',
         items: [
+          { label: 'Dashboard Access', link: '/docs/jobs/dashboard-access/' },
           { label: 'Posting a Job', link: '/docs/dashboard-jobs/posting-a-job/' },
           { label: 'Managing Applications', link: '/docs/dashboard-jobs/managing-applications/' },
           { label: 'Job Analytics', link: '/docs/dashboard-jobs/job-analytics/' },
+          { label: 'Job Layout', link: '/docs/jobs/job-layout/' },
+          { label: 'Employer Page', link: '/docs/jobs/employer-page/' },
+          { label: 'Manual Job Posting', link: '/docs/jobs/manual-posting/' },
+        ],
+      },
+      {
+        label: 'Premium Employer',
+        items: [
+          { label: 'Overview', link: '/docs/jobs/premium-employer/' },
+          { label: 'News Membership', link: '/docs/jobs/premium-employer/news-membership/' },
+          { label: 'Premium Header Image', link: '/docs/jobs/premium-employer/premium-header/' },
+          { label: 'Job Template', link: '/docs/jobs/premium-employer/job-template/' },
+          { label: 'Employer Branding Page', link: '/docs/jobs/premium-employer/employer-branding-page/' },
+        ],
+      },
+      {
+        label: 'Integration',
+        items: [
+          { label: 'Integrations Overview', link: '/docs/jobs/integrations-overview/' },
+          { label: 'Job Feed Inbound (JSON/XML)', link: '/docs/jobs/' },
+          { label: 'Job Scraper', link: '/docs/jobs/job-scraper/' },
+          { label: 'Job Feed Outbound', link: '/docs/jobs/outbound-feed/' },
+          { label: 'Job Embedder', link: '/docs/fashionunited-for-websites/' },
         ],
       },
       {
@@ -82,13 +106,6 @@ export default defineConfig({
         items: [
           { label: 'Editorial Cheat Sheet', link: '/docs/editorial-cheat-sheet/' },
           { label: 'Editorial Style Guide', link: '/docs/editorial-style-guide/' },
-        ],
-      },
-      {
-        label: 'Integration',
-        items: [
-          { label: 'FashionUnited for Websites', link: '/docs/fashionunited-for-websites/' },
-          { label: 'Jobs Feed (JSON/XML)', link: '/docs/jobs/' },
         ],
       },
       {
