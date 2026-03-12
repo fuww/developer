@@ -30,7 +30,7 @@ timeout-minutes: 30
 safe-outputs:
   create-pull-request:
     expires: 2d
-    title-prefix: "[docs] "
+    title-prefix: ""
     labels: [documentation, automation]
     draft: false
     protected-files: fallback-to-issue
@@ -129,7 +129,7 @@ If you made any documentation changes:
    - Links to relevant merged PRs that triggered the updates
    - Any notes about features that need further review
 
-**PR Title Format**: `[docs] Update documentation for features from [date]`
+**PR Title Format**: `Update documentation for features from [date]`
 
 **PR Description Template**:
 ```markdown
