@@ -135,6 +135,10 @@ The primary use case for this site is documenting the FashionUnited GraphQL API:
 - Playground: `https://fashionunited.com/graphiql/`
 - Marketplace queries support pagination, locales, and brand filtering
 
+## Commit Messages and PR Titles
+
+No prefixes (`feat:`, `fix:`, `[codex]`, etc.). Start with capital letter, imperative mood, include GitHub issue number. Example: `Add job count for locales #123`. PR titles follow the same rules.
+
 ## Issue Tracking with br (beads_rust)
 
 This project uses `br` ([beads_rust](https://github.com/steveyegge/beads_rust)) for issue tracking. beads_rust is a distributed, Git-backed issue tracker designed specifically for AI coding agents.
