@@ -7,6 +7,10 @@ Fashionunited for Websites is a suite of embeddable widgets, buttons, and
 client-side scripting tools to integrate Fashionunited and display jobs on your
 website or JavaScript application, including Embedded Jobs.
 
+This is ideal for companies who do not have their own career page or do not have an ATS system. Jobs that are manually posted on FashionUnited automatically go live on your website as well. Via the Dashboard you are able to manage the jobs (publish, unpublish, repost, and edit). FashionUnited serves as "the source" -- the connection between our job board and your website.
+
+The Customer Service team can create the embed code for you ([jobs@fashionunited.com](mailto:jobs@fashionunited.com)). For an overview of all integration options, see [Integrations Overview](/docs/jobs/integrations-overview/).
+
 ## Embedded Job Accordion
 
 (Embed jobs on your site, loaded from our API)

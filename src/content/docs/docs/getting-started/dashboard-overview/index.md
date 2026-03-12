@@ -84,6 +84,7 @@ If you cannot see a feature described in this guide, your account may not have t
 
 Now that you know your way around the dashboard:
 
+- [Set up Dashboard access](/docs/jobs/dashboard-access/) if you haven't already
 - [Post your first job](/docs/dashboard-jobs/posting-a-job/)
 - [Review applicants](/docs/dashboard-jobs/managing-applications/)
 - [Check job performance](/docs/dashboard-jobs/job-analytics/)

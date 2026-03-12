@@ -158,3 +158,6 @@ You can view the version history of a job to see what changes were made over tim
 - [Manage applicants who apply to your jobs](/docs/dashboard-jobs/managing-applications/)
 - [Track how your jobs are performing](/docs/dashboard-jobs/job-analytics/)
 - [Edit your company profile](/docs/company-profile/editing-your-profile/)
+- [Job Layout](/docs/jobs/job-layout/) -- Logo and image requirements for job postings
+- [Manual Job Posting](/docs/jobs/manual-posting/) -- Submit jobs via email to Customer Service
+- [Integrations Overview](/docs/jobs/integrations-overview/) -- Automate job posting via ATS feed or scraper

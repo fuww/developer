@@ -59,6 +59,8 @@ are therefore best supplied in SVG format.
 TLDR; If you want your brand to look best on the internet, on all devices, use
 SVG.
 
+See also: [Job Layout](/docs/jobs/job-layout/) for logo requirements when posting jobs, and [Employer Page](/docs/jobs/employer-page/) for how your logo appears on your company page.
+
 ## FashionUnited Logo Usage
 
 The logo makes the link between fashion and uniting everyone working within the
