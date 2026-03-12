@@ -20,7 +20,7 @@ network:
 safe-outputs:
   create-pull-request:
     expires: 2d
-    title-prefix: "[docs] "
+    title-prefix: ""
     labels: [documentation, glossary]
     draft: false
     protected-files: fallback-to-issue
@@ -190,8 +190,8 @@ If you made any changes to the glossary:
 **Use safe-outputs create-pull-request** to create a PR with:
 
 **PR Title Format**:
-- Daily: `[docs] Update glossary - daily scan`
-- Weekly: `[docs] Update glossary - weekly full scan`
+- Daily: `Update glossary - daily scan`
+- Weekly: `Update glossary - weekly full scan`
 
 **PR Description Template**:
 ````markdown
