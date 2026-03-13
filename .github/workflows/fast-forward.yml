@@ -1,0 +1,78 @@
+name: Fast forward
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  fast-forward:
+    if: ${{ (contains(github.event.comment.body, '/fast-forward')
+              || github.event.comment.body == '/ff')
+            && github.event.issue.pull_request
+            && (github.event.comment.author_association == 'OWNER'
+              || github.event.comment.author_association == 'MEMBER') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add reaction
+        uses: peter-evans/create-or-update-comment@v4.0.0
+        with:
+          comment-id: ${{ github.event.comment.id }}
+          reactions: rocket
+      - name: Fast forwarding
+        uses: sequoia-pgp/fast-forward@v1.0.0
+        with:
+          merge: true
+          comment: always
+          github_token: ${{ secrets.GH_PUSH_TOKEN }}
+
+  rebase:
+    if: ${{ contains(github.event.comment.body, '/rebase')
+            && github.event.issue.pull_request
+            && (github.event.comment.author_association == 'OWNER'
+              || github.event.comment.author_association == 'MEMBER') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add reaction
+        uses: peter-evans/create-or-update-comment@v4.0.0
+        with:
+          comment-id: ${{ github.event.comment.id }}
+          reactions: rocket
+      - name: Set git user
+        run: |
+          git config --global user.email "ci@fashionunited.com"
+          git config --global user.name "CI FashionUnited"
+      - name: Get pull request ref
+        id: get_pull_request_ref
+        uses: octokit/request-action@v2.4.0
+        with:
+          route: GET /repos/:repository/pulls/:issue_id
+          repository: ${{ github.repository }}
+          issue_id: ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ fromJSON(steps.get_pull_request_ref.outputs.data).head.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+          token: ${{ secrets.GH_PUSH_TOKEN }}
+      - name: Set git credentials
+        run: git remote set-url origin https://x-access-token:${{ secrets.GH_PUSH_TOKEN }}@github.com/${{ github.repository }}
+      - name: Fetch default branch
+        run: git fetch origin ${{ github.event.repository.default_branch }}
+      - name: Rebase branch on default branch
+        run: git rebase origin/${{ github.event.repository.default_branch }}
+      - name: Verify rebase success
+        run: |
+          if git status --porcelain | grep -q '^'; then
+            echo "Working directory is dirty after rebase"
+            exit 1
+          fi
+      - name: Force push to branch
+        run: git push --force-with-lease origin HEAD
