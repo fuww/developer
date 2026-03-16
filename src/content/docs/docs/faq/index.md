@@ -119,15 +119,23 @@ For technical issues or account questions, use the **Contact** link in the dashb
 
 | Term                    | Definition                                                                               |
 |-------------------------|------------------------------------------------------------------------------------------|
+| **ATS**                 | Applicant Tracking System — software used to manage job postings and candidate applications. Many companies use an ATS to post jobs to FashionUnited via an automated feed. |
 | **Applicant**           | A person who applied for a job through FashionUnited                                     |
 | **Applicant Status**    | The workflow stage of an application (e.g., New, Reviewed, Hired)                        |
+| **Brand Page**          | A Marketplace profile page for a brand, showcasing products, collections, and brand information to B2B buyers |
 | **Bundle**              | A package of credits available for purchase in the Shop                                  |
 | **Credit**              | A unit consumed when publishing or reposting a job                                       |
 | **Dashboard**           | The authenticated admin area at `dashboard.fashionunited.com`                            |
 | **Highlight**           | Enhanced visibility promotion for a job posting over a set period                        |
+| **Job Embedder**        | A JavaScript widget that displays FashionUnited-hosted jobs on your own website via an embed code snippet |
+| **Job Feed**            | An XML, JSON, or RSS feed that automatically syncs jobs from your ATS or career page to FashionUnited (inbound integration) |
 | **Job Posting**         | A published job advertisement on FashionUnited                                           |
+| **Job Scraper**         | A tool built by FashionUnited that automatically mirrors jobs from a client's career page onto FashionUnited |
 | **Jobs Table**          | The dashboard view listing all your job postings with filters, sorting, and actions      |
 | **Locale**              | A country/language combination where a job appears (e.g., en-US, de-DE)                 |
+| **Marketplace**         | FashionUnited's global B2B fashion platform where brands connect with buyers and list products via the GraphQL API |
+| **NOOS**                | Never Out Of Stock — fashion industry term for products that are continuously available and not limited to a seasonal collection |
+| **Outbound Feed**       | An XML feed that FashionUnited provides so you can display your FashionUnited-hosted jobs on your own website |
 | **Profile**             | A company's employer branding page on FashionUnited (also called Branding Page)          |
 | **Repost**              | Re-publishing an expired or unpublished job (consumes a credit)                          |
 | **Scoped Role**         | A permission limited to specific company profiles                                        |
