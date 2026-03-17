@@ -117,19 +117,30 @@ For technical issues or account questions, use the **Contact** link in the dashb
 
 ## Glossary
 
-| Term                    | Definition                                                                               |
-|-------------------------|------------------------------------------------------------------------------------------|
-| **Applicant**           | A person who applied for a job through FashionUnited                                     |
-| **Applicant Status**    | The workflow stage of an application (e.g., New, Reviewed, Hired)                        |
-| **Bundle**              | A package of credits available for purchase in the Shop                                  |
-| **Credit**              | A unit consumed when publishing or reposting a job                                       |
-| **Dashboard**           | The authenticated admin area at `dashboard.fashionunited.com`                            |
-| **Highlight**           | Enhanced visibility promotion for a job posting over a set period                        |
-| **Job Posting**         | A published job advertisement on FashionUnited                                           |
-| **Jobs Table**          | The dashboard view listing all your job postings with filters, sorting, and actions      |
-| **Locale**              | A country/language combination where a job appears (e.g., en-US, de-DE)                 |
-| **Profile**             | A company's employer branding page on FashionUnited (also called Branding Page)          |
-| **Repost**              | Re-publishing an expired or unpublished job (consumes a credit)                          |
-| **Scoped Role**         | A permission limited to specific company profiles                                        |
-| **Template**            | A predefined job structure used to pre-fill new job forms                                |
-| **Universal Form**      | FashionUnited's built-in application form used by candidates to apply for jobs           |
+| Term                              | Definition                                                                                                                                      |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| **API Key**                       | A token that grants access to non-public Marketplace data via the GraphQL API. Without one, only public data is available.                      |
+| **ATS (Applicant Tracking System)** | Software companies use to manage job postings and track candidates. ATS platforms can integrate with FashionUnited to automate job posting via a feed. |
+| **Applicant**                     | A person who applied for a job through FashionUnited                                                                                            |
+| **Applicant Status**              | The workflow stage of an application (e.g., New, Reviewed, Hired)                                                                               |
+| **Bundle**                        | A package of credits available for purchase in the Shop                                                                                         |
+| **Credit**                        | A unit consumed when publishing or reposting a job                                                                                              |
+| **Dashboard**                     | The authenticated admin area at `dashboard.fashionunited.com`                                                                                   |
+| **Employer Branding Page**        | A premium company page on FashionUnited featuring a custom banner, brand content tabs (About, Working at, News), highlighted jobs, and an employer card on the job board. See [Premium Employer](/docs/jobs/premium-employer/). |
+| **GraphQL**                       | The query language used for the FashionUnited Marketplace API, accessed at `fashionunited.com/graphql/`. It returns only the fields you request, in a single round trip. |
+| **Highlight**                     | Enhanced visibility promotion for a job posting over a set period                                                                               |
+| **Job Embedder**                  | An embeddable HTML snippet that displays FashionUnited jobs on an external website without requiring a separate ATS or career page. See [FashionUnited for Websites](/docs/fashionunited-for-websites/). |
+| **Job Feed (Inbound)**            | An XML, JSON, or RSS feed sent from your ATS to FashionUnited to automate job posting. FashionUnited syncs the feed once per day. See [Job Feed Inbound](/docs/jobs/). |
+| **Job Feed (Outbound)**           | An XML feed provided by FashionUnited containing your published jobs, which you can consume to display jobs on your own website. See [Job Feed Outbound](/docs/jobs/outbound-feed/). |
+| **Job Posting**                   | A published job advertisement on FashionUnited                                                                                                  |
+| **Job Scraper**                   | A FashionUnited tool that automatically mirrors live jobs from your career page onto the FashionUnited job board, syncing once per day. See [Job Scraper](/docs/jobs/job-scraper/). |
+| **Jobs Table**                    | The dashboard view listing all your job postings with filters, sorting, and actions                                                             |
+| **Locale**                        | A country/language combination where a job or product appears (e.g., `en-US`, `de-DE`). Used in both the Dashboard for job targeting and in the Marketplace GraphQL API for product queries. |
+| **NOOS**                          | Never Out Of Stock. A product category in the Marketplace for items that are permanently available across collections (as opposed to seasonal products). |
+| **Premium Employer**              | A paid status that unlocks enhanced visibility features including branded job templates, a custom header image, and an Employer Branding Page. See [Premium Employer](/docs/jobs/premium-employer/). |
+| **Profile**                       | A company's employer branding page on FashionUnited (also called Branding Page)                                                                 |
+| **Query Complexity**              | A server-side limit on Marketplace GraphQL API calls based on the computational cost of the query. Requesting too many nested fields at once returns an error. |
+| **Repost**                        | Re-publishing an expired or unpublished job (consumes a credit)                                                                                 |
+| **Scoped Role**                   | A permission limited to specific company profiles                                                                                               |
+| **Template**                      | A predefined job structure used to pre-fill new job forms                                                                                       |
+| **Universal Form**                | FashionUnited's built-in application form used by candidates to apply for jobs                                                                  |
